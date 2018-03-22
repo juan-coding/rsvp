@@ -60,7 +60,7 @@ handleSubmit(){
             <h2>Invitees</h2>
             <HideCheck />
           </div>
-          <Counter />
+          <Counter invitees={this.state.invitees} />
           {}
           <ul>
             <ShowInputNameChange name={this.state.name}/>
