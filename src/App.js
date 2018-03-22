@@ -23,6 +23,8 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChecked = this.handleChecked.bind(this);
     this.handleHide = this.handleHide.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
 handleInputNameChange(inputName) {
@@ -59,15 +61,31 @@ handleSubmit(){
  handleChecked(index) {
    let updateInvitees = this.state.invitees;
    updateInvitees[index].isResponse = true;
-   // this.state.invitees[index].isResponse = true;
    this.setState({
      invitees: updateInvitees,
-   })
+   });
+ }
+
+ handleRemove(index) {
+   let updateInvitees = this.state.invitees;
+   updateInvitees.splice(index, 1);
+   this.setState({
+     invitees: updateInvitees,
+   });
+ }
+
+ handleEdit(index, newname){
+   console.log('edit');
+    let updateInvitees = this.state.invitees;
+    updateInvitees[index].name = newname;
+    this.setState({
+      invitees: updateInvitees,
+    });
  }
 
 
   render() {
-    let self = this;
+    let self = this;// store 'this' in variable 'self' to access the right 'this'
 
     return (
       <div className="App">
@@ -83,7 +101,6 @@ handleSubmit(){
             <HideCheck handleHide={this.handleHide}/>
           </div>
           <Counter invitees={this.state.invitees} />
-          {}
           <ul>
             <ShowInputNameChange name={this.state.name}/>
             {self.state.invitees.map(function(invitee, index) {
@@ -92,7 +109,9 @@ handleSubmit(){
                 name={invitee.name}
                 isResponse={invitee.isResponse}
                 key={invitee.id}
-                handleChecked={function(){self.handleChecked(index)}}/>
+                handleChecked={function(){self.handleChecked(index)}}
+                handleRemove={function(){self.handleRemove(index)}}
+                handleEdit={function(newname){self.handleEdit(index, newname)}}/>
               )
             })}
           </ul>

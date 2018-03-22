@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Invitee = (props) => (
-     <li className="responded">
+     <li className={props.isResponse ? 'responded' : ''}>
       <span>{props.name}</span>
       <label>
         <input type="checkbox" onChange={props.handleChecked}/> Confirmed
       </label>
-      <button>edit</button>
-      <button>remove</button>
+      <button onClick={props.handleEdit}>edit</button>
+      <button onClick={props.handleRemove}>remove</button>
      </li>
    );
 
