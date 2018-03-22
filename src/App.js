@@ -21,6 +21,7 @@ class App extends Component {
     this.handleInputNameChange = this.handleInputNameChange.bind(this);
     this.handleResponseChange = this.handleResponseChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChecked = this.handleChecked.bind(this);
   }
 
 handleInputNameChange(inputName) {
@@ -30,14 +31,14 @@ handleInputNameChange(inputName) {
 }
 
 handleSubmit(){
-  let newInvitee = {name: this.state.name,isResponse: false, id:id};
+  let newInvitee = {name: this.state.name, isResponse: false, id:id};
   this.state.invitees.push(newInvitee);
-  console.log('invitees: ',this.state.invitees);
+  // console.log('invitees: ',this.state.invitees);
   this.setState({
     invitees: this.state.invitees,
   })
   id++;
-  console.log('now id: ', id);
+  // console.log('now id: ', id);// for test
 }
 
  handleResponseChange(isResponseOnly) {
@@ -46,7 +47,19 @@ handleSubmit(){
    });
  }
 
+ handleChecked(index) {
+   let updateInvitees = this.state.invitees;
+   updateInvitees[index].isResponse = true;
+   // this.state.invitees[index].isResponse = true;
+   this.setState({
+     invitees: updateInvitees,
+   })
+ }
+
+
   render() {
+    let self = this;
+
     return (
       <div className="App">
         <Header
@@ -64,12 +77,13 @@ handleSubmit(){
           {}
           <ul>
             <ShowInputNameChange name={this.state.name}/>
-            {this.state.invitees.map(function(invitee, index) {
+            {self.state.invitees.map(function(invitee, index) {
               return (
                 <Invitee
                 name={invitee.name}
                 isResponse={invitee.isResponse}
-                key={invitee.id}/>
+                key={invitee.id}
+                handleChecked={function(){self.handleChecked(index)}}/>
               )
             })}
           </ul>

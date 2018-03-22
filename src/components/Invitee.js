@@ -4,7 +4,7 @@ const Invitee = (props) => (
      <li className="responded">
       <span>{props.name}</span>
       <label>
-        <input type="checkbox" /> Confirmed
+        <input type="checkbox" onChange={props.handleChecked}/> Confirmed
       </label>
       <button>edit</button>
       <button>remove</button>
