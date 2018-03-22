@@ -1,9 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 
-const HideCheck = () => (
+const HideCheck = (props) => (
   <label>
-    <input type="checkbox"/> Hide those who havent responded
+    <input type="checkbox" onChange={props.handleHide}/> Hide those who havent responded
   </label>
 );
 

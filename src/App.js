@@ -22,6 +22,7 @@ class App extends Component {
     this.handleResponseChange = this.handleResponseChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChecked = this.handleChecked.bind(this);
+    this.handleHide = this.handleHide.bind(this);
   }
 
 handleInputNameChange(inputName) {
@@ -45,6 +46,14 @@ handleSubmit(){
    this.setState({
      responseOnly: isResponseOnly
    });
+ }
+
+ handleHide() {
+   let updateInvitees = this.state.invitees.filter(invitee => invitee.isResponse);
+   this.setState({
+    invitees: updateInvitees,
+  })
+
  }
 
  handleChecked(index) {
@@ -71,7 +80,7 @@ handleSubmit(){
         <div className="main">
           <div>
             <h2>Invitees</h2>
-            <HideCheck />
+            <HideCheck handleHide={this.handleHide}/>
           </div>
           <Counter invitees={this.state.invitees} />
           {}
