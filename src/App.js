@@ -20,7 +20,7 @@ class App extends Component {
     };
     // this.onAddInvitee = this.onAddInvitee.bind(this);
     this.handleInputNameChange = this.handleInputNameChange.bind(this);
-    this.handleResponseChange = this.handleResponseChange.bind(this);
+    // this.handleResponseChange = this.handleResponseChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChecked = this.handleChecked.bind(this);
     this.handleHide = this.handleHide.bind(this);
@@ -44,22 +44,14 @@ handleSubmit(){
     invitees: this.state.invitees,
   })
   id++;
-  // console.log('now id: ', id);// for test
 }
 
- handleResponseChange(isResponseOnly) {
-   this.setState({
-     responseOnly: isResponseOnly
-   });
- }
 
- handleHide() {
-   let updateInvitees = this.state.invitees.filter(invitee => invitee.isResponse);
-   this.setState({
-    invitees: updateInvitees,
-  })
-
- }
+ handleHide(value) {
+    this.setState({
+      responseOnly: value,
+    });
+  }
 
  handleChecked(value, index) {
    let updateInvitees = this.state.invitees;
@@ -108,24 +100,28 @@ handleSubmit(){
 
   render() {
     let self = this;// store 'this' in variable 'self' to access the right 'this'
+    let showInvitees = self.state.invitees;
+    if(this.state.responseOnly) {
+      showInvitees = self.state.invitees.filter(invitee => invitee.isResponse);
+   }
 
     return (
       <div className="App">
         <Header
          title="RSVP"
-         handleResponseChange={this.handleResponseChange}
-         handleInputNameChange={this.handleInputNameChange}
-         name={this.state.name}
-         handleSubmit={this.handleSubmit}/>
+         // handleResponseChange={self.handleResponseChange}
+         handleInputNameChange={self.handleInputNameChange}
+         name={self.state.name}
+         handleSubmit={self.handleSubmit}/>
         <div className="main">
           <div>
             <h2>Invitees</h2>
-            <HideCheck handleHide={this.handleHide}/>
+            <HideCheck handleHide={self.handleHide} invitees={self.state.invitees}/>
           </div>
-          <Counter invitees={this.state.invitees} />
+          <Counter invitees={self.state.invitees} />
           <ul>
-            <ShowInputNameChange name={this.state.name}/>
-            {self.state.invitees.map(function(invitee, index) {
+            <ShowInputNameChange name={self.state.name}/>
+            {showInvitees.map(function(invitee, index) {
               return (
                 <Invitee
                 name={invitee.name}

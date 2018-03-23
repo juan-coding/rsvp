@@ -3,9 +3,9 @@ import React from 'react';
 class Invitee extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isResponse: false,
-    };
+    // this.state = {
+    //   isResponse: false,
+    // };
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onResponseChange = this.onResponseChange.bind(this);
   }
@@ -19,10 +19,12 @@ class Invitee extends React.Component {
   }
 
   onResponseChange(e) {
-    this.setState({
-      isResponse: !e.target.checked,
-    });
-    this.props.handleChecked(!e.target.checked);
+
+    // this.setState({
+    //   isResponse: !e.target.checked,
+    // });
+    this.props.handleChecked(e.target.checked);
+    // e.preventDefault();
   }
 
   render() {
