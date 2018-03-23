@@ -16,6 +16,7 @@ class App extends Component {
       name: "",
       responseOnly: false,
       invitees: invitees,
+      edit:false,
     };
     // this.onAddInvitee = this.onAddInvitee.bind(this);
     this.handleInputNameChange = this.handleInputNameChange.bind(this);
@@ -24,7 +25,9 @@ class App extends Component {
     this.handleChecked = this.handleChecked.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.handleClickEdit = this.handleClickEdit.bind(this);
+    this.handleEnterKeyPress = this.handleEnterKeyPress.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
 handleInputNameChange(inputName) {
@@ -34,7 +37,7 @@ handleInputNameChange(inputName) {
 }
 
 handleSubmit(){
-  let newInvitee = {name: this.state.name, isResponse: false, id:id};
+  let newInvitee = {name: this.state.name, isResponse: false, id:id, edit: false};
   this.state.invitees.push(newInvitee);
   // console.log('invitees: ',this.state.invitees);
   this.setState({
@@ -58,9 +61,11 @@ handleSubmit(){
 
  }
 
- handleChecked(index) {
+ handleChecked(value, index) {
    let updateInvitees = this.state.invitees;
-   updateInvitees[index].isResponse = true;
+   let thisInviteeResponse = updateInvitees[index].isResponse;
+   console.log('previous response', thisInviteeResponse);
+   updateInvitees[index].isResponse = !thisInviteeResponse;
    this.setState({
      invitees: updateInvitees,
    });
@@ -74,14 +79,31 @@ handleSubmit(){
    });
  }
 
- handleEdit(index, newname){
-   console.log('edit');
-    let updateInvitees = this.state.invitees;
-    updateInvitees[index].name = newname;
+ handleClickEdit(index){
+  let updateInvitees = this.state.invitees;
+       console.log('edit index: ', index);
+    updateInvitees[index].edit = true;
     this.setState({
       invitees: updateInvitees,
     });
+    console.log('after update: ',updateInvitees[index].edit);
  }
+
+ handleEnterKeyPress(value, index) {
+     let updateInvitees = this.state.invitees;
+     updateInvitees[index].name = value;
+   this.setState({
+     invitees: updateInvitees,
+   });
+ }
+
+ handleKeyPress(value) {
+   this.setState({
+     name: value,
+   });
+ }
+
+
 
 
   render() {
@@ -109,9 +131,12 @@ handleSubmit(){
                 name={invitee.name}
                 isResponse={invitee.isResponse}
                 key={invitee.id}
-                handleChecked={function(){self.handleChecked(index)}}
+                handleChecked={function(value){self.handleChecked(value, index)}}
                 handleRemove={function(){self.handleRemove(index)}}
-                handleEdit={function(newname){self.handleEdit(index, newname)}}/>
+                handleClickEdit={function(){self.handleClickEdit(index)}}
+                handleEnterKeyPress={function(value){self.handleEnterKeyPress(value, index)}}
+                handleKeyPress={self.handleKeyPress}
+                edit={invitee.edit}/>
               )
             })}
           </ul>
